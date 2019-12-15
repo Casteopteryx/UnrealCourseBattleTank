@@ -8,23 +8,18 @@ void ATankAIController::BeginPlay()
 	Super::BeginPlay();
 
 	UE_LOG(LogTemp, Warning, TEXT("ATankAIController BeginPlay"))
+}
 
+void ATankAIController::Tick(float dt)
+{
+	Super::Tick(dt);
 	auto myToy = GetControlledTank();
-	if (myToy) {
-		FString tankName = myToy->GetName();
-		UE_LOG(LogTemp, Warning, TEXT("ATankAIController BeginPlay with %s"), *tankName)
-	}
-	else {
-		UE_LOG(LogTemp, Warning, TEXT("ATankAIController BeginPlay but no toy"))
-	}
-
 	auto myEnemy = GetPlayerTank();
-	if (myEnemy) {
-		FString tankName = myEnemy->GetName();
-		UE_LOG(LogTemp, Warning, TEXT("ATankAIController BeginPlay aiming at %s"), *tankName)
+	if (myToy && myEnemy) {
+		myToy->AimAt(myEnemy->GetActorLocation());
 	}
 	else {
-		UE_LOG(LogTemp, Warning, TEXT("ATankAIController BeginPlay but nothing to destroy"))
+		UE_LOG(LogTemp, Warning, TEXT("Something is missing"))
 	}
 }
 
